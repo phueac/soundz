@@ -1,0 +1,9 @@
+project:
+  output-dir: _docs
+
+website:
+  title: "soundz"
+  site-url: "https://phueac.github.io/soundz"
+  description: "blah"
+  repo-branch: main
+  repo-url: "https://github.com/phueac/soundz"
