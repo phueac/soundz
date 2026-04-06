@@ -1,35 +1,23 @@
-use std::rc::Rc;
+struct Tensor;
 
 #[derive(Debug)]
-enum Op {
-    Add,
+enum Node {
+    Leaf,
+    Add(Box<Node>, Box<Node>),
 }
 
-#[derive(Debug)]
-struct Tensor {
-    id: usize,
-    op: Option<Op>,
-    inputs: Vec<Rc<Tensor>>,
+fn leaf(_t: Tensor) -> Node {
+    Node::Leaf
 }
 
-impl Tensor {
-    fn leaf(id: usize) -> Rc<Self> {
-        Rc::new(Tensor { id, op: None, inputs: vec![] })
-    }
-}
-
-fn add(a: Rc<Tensor>, b: Rc<Tensor>, id: usize) -> Rc<Tensor> {
-    Rc::new(Tensor {
-        id,
-        op: Some(Op::Add),
-        inputs: vec![a, b],
-    })
+fn add(a: Node, b: Node) -> Node {
+    Node::Add(Box::new(a), Box::new(b))
 }
 
 fn main() {
-    let x = Tensor::leaf(0);
-    let y = Tensor::leaf(1);
-    let z = add(x, y, 2);
+    let x = leaf(Tensor);
+    let y = leaf(Tensor);
+    let z = add(x, y);
 
     println!("{:#?}", z);
 }
